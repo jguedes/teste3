@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+
+<title>Insert title here</title>
+</head>
+<script src="resources/angular.js" type="text/javascript"></script>
+<script src="resources/teste3.js" type="text/javascript"></script>
+<body data-ng-app="Teste3App">
+	<div data-ng-controller="Teste3Controller as controller"
+		style="background-color: {{controller.tipo.bkgColor}}">
+		<h1>Teste3 App</h1>
+		<h5>Usuário: {{controller.usuario}}</h5>
+		<div>
+			<label><input type="radio"
+				data-ng_model="controller.tipo.value" value='0'
+				data-ng-checked="controller.tipo.value==0"
+				data-ng-click="controller.alterarTipo()">ENTRADA</label> <label><input
+				type="radio" data-ng_model="controller.tipo.value" value='1'
+				data-ng-checked="controller.tipo.value==1"
+				data-ng-click="controller.alterarTipo()">SAÍDA</label>
+		</div>
+		<div>
+			<button type="button"
+				data-ng-click="controller.gerenciarAmbiente('gerConta')">Gerenciar
+				contas</button>
+			<button type="button"
+				data-ng-click="controller.gerenciarAmbiente('gerMovs')">Gerenciar
+				movimentações</button>
+		</div>
+		<div data-ng-show="controller.gerConta">
+			<div style="border: 1px solid black;" data-ng-show="controller.conta">
+
+				<label for="contaID">ID: </label> <input id="contaID" type="number"
+					data-ng-model="controller.conta.id" disabled><br> <label
+					for="contaTitulo">Título: </label> <input id="contaTitulo"
+					type="text" data-ng-model="controller.conta.titulo"><br>
+
+				<button type="button" data-ng-click="controller.salvar()">Salvar</button>
+				<button type="button" data-ng-click="controller.conta = undefined">Cancelar</button>
+			</div>
+
+			<div style="border: 1px solid black;"
+				data-ng-show="!controller.conta">
+				<button type="button" data-ng-click="controller.nova()">Nova
+					Conta</button>
+				<br> <br>
+				<table border="1">
+					<caption>Contas</caption>
+					<tr>
+						<th>ID</th>
+						<th>Título</th>
+						<th>Opções</th>
+					</tr>
+					<tr data-ng-repeat="conta in controller.contas">
+						<td>{{conta.id}}</td>
+						<td>{{conta.titulo}}</td>
+						<td>
+							<button type="button" data-ng-click="controller.alterar(conta)">Alterar</button>
+							<button type="button" data-ng-click="controller.excluir(conta)">Excluir</button>
+							<button type="button" data-ng-click="controller.concluir(conta)">Concluir</button>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div data-ng-show="controller.gerMovs">
+			Ambiente de Movimentações<br>
+			<!-- select input with object -->
+			<label>Contas <select ng-model="contaSelecionada"
+				ng-options="conta.titulo for conta in controller.contas">
+			</select> {{contaSelecionada}}
+			</label>
+		</div>
+	</div>
+
+</body>
+</html>
