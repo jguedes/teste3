@@ -4,5 +4,7 @@
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		<jta-data-source>java:jboss/datasources/MYSQLDS</jta-data-source>
 		<class>br.com.jguedes.teste3.model.Conta</class>
+		<class>br.com.jguedes.teste3.model.Movimentacao</class>
+		<class>br.com.jguedes.teste3.model.MovimentacaoPK</class>
 	</persistence-unit>
 </persistence>

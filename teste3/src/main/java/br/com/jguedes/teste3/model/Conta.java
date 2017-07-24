@@ -2,33 +2,39 @@ package br.com.jguedes.teste3.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.util.List;
+
 
 /**
  * The persistent class for the conta database table.
  * 
  */
 @Entity
-@NamedQuery(name = "Conta.findAll", query = "SELECT c FROM Conta c")
+@NamedQuery(name="Conta.findAll", query="SELECT c FROM Conta c")
 public class Conta implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name = "CONTA_ID_GENERATOR", sequenceName = "HIBERNATE_SEQUENCE")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CONTA_ID_GENERATOR")
-	private Integer id;
+	@SequenceGenerator(name="CONTA_ID_GENERATOR", sequenceName="HIBERNATE_SEQUENCE")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CONTA_ID_GENERATOR")
+	private int id;
 
 	private int tipo;
 
 	private String titulo;
 
+	//bi-directional many-to-one association to Movimentacao
+	@OneToMany(mappedBy="conta")
+	private List<Movimentacao> movimentacoes;
+
 	public Conta() {
 	}
 
-	public Integer getId() {
+	public int getId() {
 		return this.id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -48,9 +54,26 @@ public class Conta implements Serializable {
 		this.titulo = titulo;
 	}
 
-	public String imprimir() {
-		return new StringBuilder().append("id=").append(id).append(";tipo=").append(tipo).append(";titulo=")
-				.append(titulo).toString();
+	public List<Movimentacao> getMovimentacoes() {
+		return this.movimentacoes;
+	}
+
+	public void setMovimentacoes(List<Movimentacao> movimentacoes) {
+		this.movimentacoes = movimentacoes;
+	}
+
+	public Movimentacao addMovimentacao(Movimentacao movimentacao) {
+		getMovimentacoes().add(movimentacao);
+		movimentacao.setConta(this);
+
+		return movimentacao;
+	}
+
+	public Movimentacao removeMovimentacao(Movimentacao movimentacao) {
+		getMovimentacoes().remove(movimentacao);
+		movimentacao.setConta(null);
+
+		return movimentacao;
 	}
 
 }
